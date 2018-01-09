@@ -1,34 +1,30 @@
+# This program creates a boxplot inclusive beeswarm dots, grid and sample size
+# MaL
 
-#--------------read Demo File------------------------------------------#
-library(readr)
-demoData  <- read_delim("C:/Users/maximilian.lacher/Desktop/Mobile Pics/2017-05-17 Mobile Filled Neb Test.csv", 
-                                                 ";", escape_double = FALSE, col_types = cols(`Neb Nr` = col_character()), 
-                                                 locale = locale(decimal_mark = ","), 
-                                                 trim_ws = TRUE)
-#--------------boxplot including beeswarm
-#http://www.cbs.dtu.dk/~eklund/beeswarm/
-
-#--------------boxplot including beeswarm-----------------------------#
+#1 include library and get x,y values
 library(beeswarm)
-windows()
-#--------------boxplot
+y1 <- '[##y_value##]'
+x1 <- '[##x_name##]'
 
-b<-boxplot(`Output-rate`~ BU, data = demoData, 
+#2 plot boxplot
+windows()
+b<-boxplot(y1~ x1, 
         outline = FALSE,     ## avoid double-plotting outliers, if any
         main = "Output rate with different Software",
-        ylim = c(0.3,0.9),
-        xlab = "Base Unit",
-        ylab = "Output RAte"
+        ylim = c('[##y_LL##]','[##y_UL##]'),
+        xlab = "x_lab",
+        ylab = "y_lab"
         )
-#--------------beeswarm
-beeswarm(`Output-rate`~ BU, data = demoData, priority = "random",
+
+#3 add beeswarm dots to boxlpot
+beeswarm(y1~ x1, priority = "random",
          col = 1, pch = 21, add = TRUE, cex=.5)
 
-#--------------grid
+#4 add grid to boxplot
 grid(nx = NA, ny = NULL, col = "lightgray", lty = "dotted",
      lwd = par("lwd"), equilogs = TRUE)
 
-
+#4 add sampe size to boxplot
 xlength<-length(levels(factor(b$names)))
 text(x=1:xlength, y=b$stats[5,],
      paste("n",b$n,sep="="),pos=3, offset =.6, cex=.8)
